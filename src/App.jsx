@@ -1,7 +1,7 @@
 /*Q1. JS Variable needs to be created here. Below variable is just an example. Try to add more attributes.*/
 const initialTravellers = [
   {
-    id: 1, 
+    id: 3421029332933, 
     name: 'Jack', 
     phone: 88885555,
     bookingTime: new Date(),
@@ -10,7 +10,7 @@ const initialTravellers = [
     trainNum:'TR123'
   },
   {
-    id: 2, 
+    id: 2929505942041, 
     name: 'Rose', 
     phone: 88884444,
     bookingTime: new Date(),
@@ -19,7 +19,6 @@ const initialTravellers = [
     trainNum:'TR123'
   },
 ];
-
 
 function TravellerRow(props) {
   {/*Q3. Placeholder to initialize local variable based on traveller prop.*/}
@@ -41,7 +40,6 @@ function TravellerRow(props) {
 function Display(props) {
   
 	/*Q3. Write code to render rows of table, reach corresponding to one traveller. Make use of the TravellerRow function that draws one row.*/
-
   return (
     <table className="bordered-table">
       <thead>
@@ -74,13 +72,50 @@ class Add extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     /*Q4. Fetch the passenger details from the add form and call bookTraveller()*/
+    const newBooking={
+      id: Date.now(),
+      name:e.target.name.value,
+      phone: parseInt(e.target.phone.value, 10),
+      from:e.target.from.value,
+      to:e.target.to.value,
+      trainNum:e.target.trainNum.value,
+      bookingTime: new Date()
+    }
+    this.props.addfunction(newBooking);
+    e.target.reset();
   }
 
   render() {
     return (
       <form name="addTraveller" onSubmit={this.handleSubmit}>
 	    {/*Q4. Placeholder to enter passenger details. Below code is just an example.*/}
-        <input type="text" name="travellername" placeholder="Name" />
+        <input type="text" name="name" placeholder="Name" />
+        <input type="number" name="phone" placeholder="Phone Number" />
+        <select
+          name="from"
+          required
+        >
+          <option value="">From</option>
+          <option value="Singapore">Singapore</option>
+          <option value="Thailand">Thailand</option>
+        </select>
+        <select
+          name="to"
+          required
+        >
+          <option value="">To</option>
+          <option value="Singapore">Singapore</option>
+          <option value="Thailand">Thailand</option>
+        </select>
+        <select
+          name="trainNum"
+          required
+        >
+          <option value="">Select Train Number</option>
+          <option value="TR123">TR123</option>
+          <option value="TR456">TR456</option>
+          <option value="TR789">TR789</option>
+        </select>
         <button>Add</button>
       </form>
     );
@@ -157,6 +192,7 @@ class TicketToRide extends React.Component {
 
   bookTraveller(passenger) {
 	    /*Q4. Write code to add a passenger to the traveller state variable.*/
+      this.setState({travellers: [...this.state.travellers, passenger]});
   }
 
   deleteTraveller(passenger) {
@@ -196,7 +232,7 @@ class TicketToRide extends React.Component {
 		{/*Q3. Code to call component that Displays Travellers.*/}
 		{this.state.selector==2 && <Display travellers={this.state.travellers}/>}
 		{/*Q4. Code to call the component that adds a traveller.*/}
-    {this.state.selector==3 && <Add/>}
+    {this.state.selector==3 && <Add addfunction={this.bookTraveller}/>}
 		{/*Q5. Code to call the component that deletes a traveller based on a given attribute.*/}
     {this.state.selector==4 && <Delete deletefunction= {this.deleteTraveller}/>}
 	</div>
