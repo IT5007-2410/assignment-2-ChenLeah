@@ -23,9 +23,17 @@ const initialTravellers = [
 
 function TravellerRow(props) {
   {/*Q3. Placeholder to initialize local variable based on traveller prop.*/}
+  const {traveller} = props;
   return (
     <tr>
 	  {/*Q3. Placeholder for rendering one row of a table with required traveller attribute values.*/}
+      <td>{traveller.id}</td>
+      <td>{traveller.name}</td>
+      <td>{traveller.phone}</td>
+      <td>{new Date(traveller.bookingTime).toLocaleString()}</td>
+      <td>{traveller.from}</td>
+      <td>{traveller.to}</td>
+      <td>{traveller.trainNum}</td>
     </tr>
   );
 }
@@ -43,10 +51,15 @@ function Display(props) {
           <th>Name</th>
           <th>Phone</th>
           <th>Booking Time</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Train Number</th>
         </tr>
       </thead>
       <tbody>
         {/*Q3. write code to call the JS variable defined at the top of this function to render table rows.*/}
+        {props.travellers.map(traveller => <TravellerRow key={traveller.id} traveller={traveller} />)}
+        {/*Note: key prop is not passed as a prop, but for React's internal use.*/}
       </tbody>
     </table>
   );
@@ -181,7 +194,7 @@ class TicketToRide extends React.Component {
 		{/*Q2 and Q6. Code to call Instance that draws Homepage. Homepage shows Visual Representation of free seats.*/}
     {this.state.selector==1 && <Homepage/>}
 		{/*Q3. Code to call component that Displays Travellers.*/}
-		{this.state.selector==2 && <Display/>}
+		{this.state.selector==2 && <Display travellers={this.state.travellers}/>}
 		{/*Q4. Code to call the component that adds a traveller.*/}
     {this.state.selector==3 && <Add/>}
 		{/*Q5. Code to call the component that deletes a traveller based on a given attribute.*/}
